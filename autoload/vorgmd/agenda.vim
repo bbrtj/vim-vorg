@@ -82,7 +82,7 @@ function! s:fillAgendaWindow(data)
 		let line += 1
 	endfor
 
-	%foldo
+	silent! %foldo
 
 	setlocal nomodifiable
 	call winrestview(view)
