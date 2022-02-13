@@ -1,5 +1,7 @@
 " insert mode shortcuts
 ab <buffer> -[ - [ ]
+ab <buffer> *[ * [ ]
+ab <buffer> +[ + [ ]
 
 " normal mode shortcuts
 nnoremap <buffer> <silent> cx :call vorgmd#tasks#toggleCheckbox()<CR>
@@ -7,14 +9,32 @@ vnoremap <buffer> <silent> cx :call vorgmd#tasks#toggleCheckbox()<CR>
 
 nnoremap <buffer> <silent> ?? :call vorgmd#agenda#show()<CR>
 
+" Plug maps
+
+noremap <buffer> <Plug>VorgmdDeleteInColumn dt\|dT\|=
+\:silent! call repeat#set("\<Plug>VorgmdDeleteInColumn", v:count)<CR>
+
+noremap <buffer> <Plug>VorgmdChangeInColumn dT\|ct\|
+"\:auto InsertLeave <buffer> ++once :silent! call repeat#set("\<Plug>VorgmdChangeInColumn", v:count)<CR>
+
+noremap <buffer> <Plug>VorgmdYankInColumn T\|yt\|
+
+noremap <buffer> <Plug>VorgmdDeleteAColumn df\|dT\|=
+\:silent! call repeat#set("\<Plug>VorgmdDeleteAColumn", v:count)<CR>
+
+noremap <buffer> <Plug>VorgmdChangeAColumn dT\|cf\|
+"\:auto InsertLeave <buffer> ++once :silent! call repeat#set("\<Plug>VorgmdChangeAColumn", v:count)<CR>
+
+noremap <buffer> <Plug>VorgmdYankAColumn T\|yf\|
+
 " table key maps
 nmap <buffer> <silent> = :call vorgmd#table#align()<CR>
-nmap <buffer> dic T\|dt\|=
-nmap <buffer> cic T\|ct\|
-nmap <buffer> yic T\|yt\|
-nmap <buffer> dac T\|df\|=
-nmap <buffer> cac T\|cf\|
-nmap <buffer> yac T\|yf\|
+nmap <buffer> dic <Plug>VorgmdDeleteInColumn
+nmap <buffer> cic <Plug>VorgmdChangeInColumn
+nmap <buffer> yic <Plug>VorgmdYankInColumn
+nmap <buffer> dac <Plug>VorgmdDeleteAColumn
+nmap <buffer> cac <Plug>VorgmdChangeAColumn
+nmap <buffer> yac <Plug>VorgmdYankAColumn
 vmap <buffer> ic T\|vvt\|
 vmap <buffer> ac T\|vvf\|
 
