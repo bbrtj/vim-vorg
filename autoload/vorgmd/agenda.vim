@@ -1,4 +1,11 @@
-let s:scheduled_match = '\(\s\|^\)\@<=[~]\d*[/-]\d*[/-]\d*\( @ \d*:\d*\)\?\(\s\|$\)\@='
+let s:scheduled_match = '^\s*'
+	\. '\('
+		\. '\d\{4\}-\d\{2\}-\d\{2\}'
+		\. '\|'
+		\. '\d\{2\}-\d\{2\}-\d\{4\}'
+	\. '\)'
+	\. '\( \d\{1,2\}:\d\{2\}\)\?'
+	\. '\(\s\|$\)\@='
 
 function! s:showAgendaWindow()
 	vertical rightbelow new
@@ -8,6 +15,7 @@ function! s:showAgendaWindow()
 
 	map <buffer> <silent> q :q<CR>
 	map <buffer> <silent> o :call vorgmd#agenda#jump()<CR>
+	map <buffer> <silent> <CR> :call vorgmd#agenda#jump()<CR>
 	unmap <buffer> ??
 endfunction
 
@@ -29,9 +37,8 @@ function! s:makePrintableStructure(data)
 
 	for [lnum, text, date] in a:data
 		let text = vorgmd#util#trim(text)
-		let date = date[1:]
 
-		let date_time = split(date, ' @ ')
+		let date_time = split(date, ' ')
 		if len(date_time) > 1
 			let date = date_time[0]
 			let text = date_time[1] . " - " . text
@@ -44,7 +51,7 @@ function! s:makePrintableStructure(data)
 	endfor
 
 	let dates = map(dates, {
-		\i, val -> sort(val)
+		\i, val -> reverse(sort(val))
 	\})
 
 	return sort(items(dates), {
@@ -129,6 +136,7 @@ function! vorgmd#agenda#show()
 		call s:entangleWindows()
 		let items = s:gather(b:from[1])
 		call s:fillAgendaWindow(items)
+		silent! execute '/^# Today'
 	endif
 endfunction
 

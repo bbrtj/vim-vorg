@@ -44,7 +44,10 @@ function! vorgmd#dates#commonName(date)
 	elseif date_dist == 1
 		let date = "Tomorrow"
 	elseif date_dist > 0 && date_dist < 7
+		let oldlang = v:lc_time
+		language time en_US.UTF-8
 		let date = substitute(strftime("%A", vorgmd#dates#nextWeekdayTimestamp(date_dist)), '\<.', '\u&', "")
+		execute 'language time ' . oldlang
 	endif
 
 	return date
