@@ -4,7 +4,8 @@ endfunction
 
 function! s:cleanColumn(column)
 	let col = vorgmd#util#trim(a:column)
-	let col = substitute(l:col, '^-\{2,\}$', "", "g")
+	let col = substitute(l:col, '^\s\+$', "", "g")
+	let col = substitute(l:col, '^--\+$', "--", "g")
 	return l:col
 endfunction
 
@@ -44,8 +45,8 @@ function! s:tableAlign(step, column, coln, max_widths)
 		endif
 	elseif a:step ==# "align"
 		let rchar = " "
-		if length == 0
-			let rchar = "-"
+		if a:column =~ '^--\+$'
+			let rchar = '-'
 		endif
 		return rchar . a:column . repeat(rchar, a:max_widths[a:coln] - length + 1)
 	endif
@@ -77,10 +78,10 @@ function! s:tableSetRow(lnum, data)
 endfunction
 
 function! s:getTable(lnum)
-		let row_data = s:tableParse({}, a:lnum)
-		let table = vorgmd#util#parseLinesAround(a:lnum, {a -> row_data}, function("s:tableCondition"), function("s:tableParse"))
-		call add(table, [a:lnum, row_data])
-		return table
+	let row_data = s:tableParse({}, a:lnum)
+	let table = vorgmd#util#parseLinesAround(a:lnum, {a -> row_data}, function("s:tableCondition"), function("s:tableParse"))
+	call add(table, [a:lnum, row_data])
+	return table
 endfunction
 
 function! vorgmd#table#align()
