@@ -24,7 +24,7 @@ Any line that starts and ends with a pipe symbol `|` will be treated as a table 
 Tables feature automated aligning, cell text objects, cell navigation and exporting.
 Tables can also be exported with `:call VorgmdTableExport` into csv, json or html.
 
-_Note about exporting: if the second row consists of all columns being fully separators (filled with -) then json will be exported as an array of objects, and html will be exported with first row having <th> instead of <td>. No such separator rows are ever exported_
+_Note about exporting: if the second row consists of all columns being fully separators (filled with -) then json will be exported as an array of objects, and html will be exported with first row having \<th\> instead of \<td\>. No such separator rows are ever exported_
 
 ```
 | Person | Phone       | Email          |
